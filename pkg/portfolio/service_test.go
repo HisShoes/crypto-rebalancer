@@ -3,10 +3,10 @@ package portfolio_test
 import (
 	"testing"
 
-	"github.com/hisshoes/crypto/rebalancer/pkg/portfolio"
+	"github.com/hisshoes/crypto-rebalancer/pkg/portfolio"
 
 	"github.com/golang/mock/gomock"
-	"github.com/hisshoes/crypto/rebalancer/pkg/mocks"
+	"github.com/hisshoes/crypto-rebalancer/pkg/mocks"
 )
 
 //TestGetPortfolio - unit test portfolio.service.GetPortfolio

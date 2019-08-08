@@ -5,9 +5,10 @@
 package mocks
 
 import (
-	gomock "github.com/golang/mock/gomock"
-	portfolio "github.com/hisshoes/crypto/rebalancer/pkg/portfolio"
 	reflect "reflect"
+
+	gomock "github.com/golang/mock/gomock"
+	portfolio "github.com/hisshoes/crypto-rebalancer/pkg/portfolio"
 )
 
 // MockRepository is a mock of Repository interface
