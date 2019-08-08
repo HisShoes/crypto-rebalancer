@@ -92,7 +92,7 @@ func TestGetPortfolios(t *testing.T) {
 	//setup the service using mock repo
 	s := portfolio.NewService(mockRepo)
 
-	// Portfolio doesn't exist: Test to check when error is returned from repo
+	// Portfolio List: Test to check when error is returned from repo
 	// error is returned from service
 	mockRepo.EXPECT().GetPortfolios().Return([]portfolio.Portfolio{}, errors.New("Some error")).Times(1)
 	ps, err := s.GetAllPortfolios()

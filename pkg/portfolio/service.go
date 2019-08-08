@@ -5,7 +5,7 @@ import "errors"
 // Service to provide portfolio functionality
 type Service interface {
 	GetPortfolioByID(i int) (Portfolio, error)
-	CreatePortfolio(Portfolio) (Portfolio, error)
+	CreatePortfolio(Portfolio) error
 	RebalancePortfolio(i int) (Portfolio, error)
 	GetAllPortfolios() ([]Portfolio, error)
 }
@@ -29,9 +29,9 @@ func NewService(r Repository) Service {
 
 // CreatePortfolio Creates a new portfolio using the repo
 // takes in an initial portfolio object
-func (s *service) CreatePortfolio(p Portfolio) (Portfolio, error) {
+func (s *service) CreatePortfolio(p Portfolio) error {
 
-	return Portfolio{}, nil
+	return nil
 }
 
 // GetPortfolioByID retrieves the portfolio matching the id passed in
