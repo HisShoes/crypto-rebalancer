@@ -4,9 +4,10 @@ import "errors"
 
 // Service to provide portfolio functionality
 type Service interface {
-	GetPortfolio(i int) (Portfolio, error)
+	GetPortfolioByID(i int) (Portfolio, error)
 	CreatePortfolio(Portfolio) (Portfolio, error)
 	RebalancePortfolio(i int) (Portfolio, error)
+	GetAllPortfolios() ([]Portfolio, error)
 }
 
 type service struct {
@@ -33,9 +34,14 @@ func (s *service) CreatePortfolio(p Portfolio) (Portfolio, error) {
 	return Portfolio{}, nil
 }
 
-// GetPortfolio retrieves the portfolio values
-func (s *service) GetPortfolio(i int) (Portfolio, error) {
-	return s.repo.GetPortfolio(i)
+// GetPortfolioByID retrieves the portfolio matching the id passed in
+func (s *service) GetPortfolioByID(i int) (Portfolio, error) {
+	return s.repo.GetPortfolioByID(i)
+}
+
+// GetAllPortfolios retrieves all portfolios
+func (s *service) GetAllPortfolios() ([]Portfolio, error) {
+	return s.repo.GetPortfolios()
 }
 
 // RebalancePortfolio calls the repo to get asset pricing
