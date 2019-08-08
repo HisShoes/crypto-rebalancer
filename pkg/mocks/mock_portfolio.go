@@ -34,17 +34,32 @@ func (m *MockRepository) EXPECT() *MockRepositoryMockRecorder {
 }
 
 // CreatePortfolio mocks base method
-func (m *MockRepository) CreatePortfolio(arg0 portfolio.Portfolio) error {
+func (m *MockRepository) CreatePortfolio(arg0 portfolio.Portfolio) (string, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CreatePortfolio", arg0)
-	ret0, _ := ret[0].(error)
-	return ret0
+	ret0, _ := ret[0].(string)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
 }
 
 // CreatePortfolio indicates an expected call of CreatePortfolio
 func (mr *MockRepositoryMockRecorder) CreatePortfolio(arg0 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreatePortfolio", reflect.TypeOf((*MockRepository)(nil).CreatePortfolio), arg0)
+}
+
+// GenerateID mocks base method
+func (m *MockRepository) GenerateID() string {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GenerateID")
+	ret0, _ := ret[0].(string)
+	return ret0
+}
+
+// GenerateID indicates an expected call of GenerateID
+func (mr *MockRepositoryMockRecorder) GenerateID() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GenerateID", reflect.TypeOf((*MockRepository)(nil).GenerateID))
 }
 
 // GetAssetPrice mocks base method
@@ -63,7 +78,7 @@ func (mr *MockRepositoryMockRecorder) GetAssetPrice(arg0 interface{}) *gomock.Ca
 }
 
 // GetPortfolioByID mocks base method
-func (m *MockRepository) GetPortfolioByID(arg0 int) (portfolio.Portfolio, error) {
+func (m *MockRepository) GetPortfolioByID(arg0 string) (portfolio.Portfolio, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetPortfolioByID", arg0)
 	ret0, _ := ret[0].(portfolio.Portfolio)

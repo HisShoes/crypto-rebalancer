@@ -19,7 +19,7 @@ func TestGetPortfolioByID(t *testing.T) {
 
 	// setup test portfolio to use in mocking
 	testPortfolio := portfolio.Portfolio{
-		ID: 1,
+		ID: "1",
 		Assets: []portfolio.Asset{
 			portfolio.Asset{
 				Name:  "BTC",
@@ -35,23 +35,23 @@ func TestGetPortfolioByID(t *testing.T) {
 
 	// Portfolio doesn't exist: Test to check when error is returned from repo
 	// error is returned from service
-	mockRepo.EXPECT().GetPortfolioByID(1).Return(portfolio.Portfolio{}, portfolio.ErrMissing).Times(1)
-	p, err := s.GetPortfolioByID(1)
+	mockRepo.EXPECT().GetPortfolioByID("1").Return(portfolio.Portfolio{}, portfolio.ErrMissing).Times(1)
+	p, err := s.GetPortfolioByID("1")
 	if err != portfolio.ErrMissing {
 		t.Errorf("Portfolio doesn't exist: Error missing not returned")
 	}
-	if p.ID != 0 {
+	if p.ID != "" {
 		t.Errorf("Portfolio doesn't exist: zero ID not returned ")
 	}
 
 	// Portfolio Exists: Test to check when portfolio returned from repo
 	// it's returned from the service
-	mockRepo.EXPECT().GetPortfolioByID(1).Return(testPortfolio, nil).Times(1)
-	p, err = s.GetPortfolioByID(1)
+	mockRepo.EXPECT().GetPortfolioByID("1").Return(testPortfolio, nil).Times(1)
+	p, err = s.GetPortfolioByID("1")
 	if err != nil {
 		t.Errorf("Portfolio Exists: Error returned instead of portfolio")
 	}
-	if p.ID != 1 {
+	if p.ID != "1" {
 		t.Errorf("Portfolio Exists: portfolio with ID 1 not returned")
 	}
 }
@@ -66,7 +66,7 @@ func TestGetPortfolios(t *testing.T) {
 	// setup test portfolio to use in mocking
 	testPortfolios := []portfolio.Portfolio{
 		portfolio.Portfolio{
-			ID: 1,
+			ID: "1",
 			Assets: []portfolio.Asset{
 				portfolio.Asset{
 					Name:  "BTC",
@@ -77,7 +77,7 @@ func TestGetPortfolios(t *testing.T) {
 			},
 		},
 		portfolio.Portfolio{
-			ID: 2,
+			ID: "2",
 			Assets: []portfolio.Asset{
 				portfolio.Asset{
 					Name:  "ETH",
@@ -97,10 +97,10 @@ func TestGetPortfolios(t *testing.T) {
 	mockRepo.EXPECT().GetPortfolios().Return([]portfolio.Portfolio{}, errors.New("Some error")).Times(1)
 	ps, err := s.GetAllPortfolios()
 	if err == nil {
-		t.Errorf("Portfolio doesn't exist: Error missing not returned")
+		t.Errorf("Portfolio List Error: Error not returned")
 	}
 	if len(ps) != 0 {
-		t.Errorf("Portfolio doesn't exist: zero ID not returned ")
+		t.Errorf("Portfolio List Error: zero ID not returned ")
 	}
 
 	// Portfolio List: Test to check when portfolios returned from repo
@@ -113,4 +113,54 @@ func TestGetPortfolios(t *testing.T) {
 	if len(ps) != 2 {
 		t.Errorf("Portfolio List: Wrong number of records returned")
 	}
+}
+
+// TestCreatePortfolio - test creating a portfolio
+func TestCreatePortfolio(t *testing.T) {
+	// setup mocking objects
+	mockCtrl := gomock.NewController(t)
+	defer mockCtrl.Finish()
+	mockRepo := mocks.NewMockRepository(mockCtrl)
+
+	// setup test portfolio to use in call to create
+	testPortfolio := portfolio.Portfolio{
+		Assets: []portfolio.Asset{
+			portfolio.Asset{
+				Name:  "BTC",
+				Value: 100,
+				Share: 50,
+				Price: 8000,
+			},
+		},
+	}
+
+	testID := "FIRSTID"
+
+	// setup the service using mock repo
+	s := portfolio.NewService(mockRepo)
+
+	// Portfolio Create: Check portfolio is created properly
+	mockRepo.EXPECT().CreatePortfolio(testPortfolio).Return(testID, nil).Times(1)
+	ID, err := s.CreatePortfolio(testPortfolio)
+	if ID != testID {
+		t.Errorf("Portfolio Create: Wrong ID returned")
+	}
+	if err != nil {
+		t.Errorf("Portfolio Create: Error returned but not thrown")
+	}
+
+	// Portfolio Create Error: Check portfolio is created properly
+	mockRepo.EXPECT().CreatePortfolio(testPortfolio).Return("", errors.New("Some error")).Times(1)
+	ID, err = s.CreatePortfolio(testPortfolio)
+	if ID != "" {
+		t.Errorf("Portfolio Create Error: Non zero ID returned")
+	}
+	if err == nil {
+		t.Errorf("Portfolio Create: Error thrown but not returned")
+	}
+
+}
+
+func TestUpdatePrice(t *testing.T) {
+
 }

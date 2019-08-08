@@ -1,12 +1,14 @@
 package portfolio
 
-import "errors"
+import (
+	"errors"
+)
 
 // Service to provide portfolio functionality
 type Service interface {
-	GetPortfolioByID(i int) (Portfolio, error)
-	CreatePortfolio(Portfolio) error
-	RebalancePortfolio(i int) (Portfolio, error)
+	GetPortfolioByID(i string) (Portfolio, error)
+	CreatePortfolio(Portfolio) (string, error)
+	RebalancePortfolio(i string) (Portfolio, error)
 	GetAllPortfolios() ([]Portfolio, error)
 }
 
@@ -29,13 +31,12 @@ func NewService(r Repository) Service {
 
 // CreatePortfolio Creates a new portfolio using the repo
 // takes in an initial portfolio object
-func (s *service) CreatePortfolio(p Portfolio) error {
-
-	return nil
+func (s *service) CreatePortfolio(p Portfolio) (string, error) {
+	return s.repo.CreatePortfolio(p)
 }
 
 // GetPortfolioByID retrieves the portfolio matching the id passed in
-func (s *service) GetPortfolioByID(i int) (Portfolio, error) {
+func (s *service) GetPortfolioByID(i string) (Portfolio, error) {
 	return s.repo.GetPortfolioByID(i)
 }
 
@@ -46,7 +47,7 @@ func (s *service) GetAllPortfolios() ([]Portfolio, error) {
 
 // RebalancePortfolio calls the repo to get asset pricing
 // and redistributes based on asset shares
-func (s *service) RebalancePortfolio(i int) (Portfolio, error) {
+func (s *service) RebalancePortfolio(i string) (Portfolio, error) {
 	// Get the portfolio from the repo using the id passed in
 
 	// loop through assets, update the prices
