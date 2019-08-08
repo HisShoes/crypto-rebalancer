@@ -9,14 +9,14 @@ import (
 	"github.com/hisshoes/crypto-rebalancer/pkg/mocks"
 )
 
-//TestGetPortfolio - unit test portfolio.service.GetPortfolio
+// TestGetPortfolio - unit test portfolio.service.GetPortfolio
 func TestGetPortfolio(t *testing.T) {
-	//setup mocking objects
+	// setup mocking objects
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 	mockRepo := mocks.NewMockRepository(mockCtrl)
 
-	//setup test portfolio to use in mocking
+	// setup test portfolio to use in mocking
 	testPortfolio := portfolio.Portfolio{
 		ID: 1,
 		Assets: []portfolio.Asset{
@@ -29,7 +29,7 @@ func TestGetPortfolio(t *testing.T) {
 		},
 	}
 
-	//Portfolio doesn't exist: Test to check when error is returned from repo
+	// Portfolio doesn't exist: Test to check when error is returned from repo
 	// error is returned from service
 	mockRepo.EXPECT().GetPortfolio(1).Return(portfolio.Portfolio{}, portfolio.ErrMissing).Times(1)
 	s := portfolio.NewService(mockRepo)
@@ -41,7 +41,7 @@ func TestGetPortfolio(t *testing.T) {
 		t.Errorf("Portfolio doesn't exist: zero ID not returned ")
 	}
 
-	//Portfolio Exists: Test to check when portfolio returned from repo
+	// Portfolio Exists: Test to check when portfolio returned from repo
 	// it's returned from the service
 	mockRepo.EXPECT().GetPortfolio(1).Return(testPortfolio, nil).Times(1)
 	p, err = s.GetPortfolio(1)
