@@ -50,7 +50,7 @@ func (s *service) GetAllPortfolios() ([]Portfolio, error) {
 func (s *service) RebalancePortfolio(i string) (Portfolio, error) {
 	// Get the portfolio from the repo using the id passed in
 
-	// loop through assets, update the prices
+	// loop through assets, get the prices and update the asset value
 
 	// figure out total value of the portfolio
 
@@ -60,11 +60,4 @@ func (s *service) RebalancePortfolio(i string) (Portfolio, error) {
 	// Update the portfolio using the repo
 
 	return Portfolio{}, nil
-}
-
-// UpdatePrice calls the repo to update the price of 1 coin in fiat
-func (s *service) UpdatePrice(a *Asset) error {
-	var err error
-	a.Price, err = s.repo.GetAssetPrice(a.Name)
-	return err
 }
