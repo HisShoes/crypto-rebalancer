@@ -77,34 +77,34 @@ func (mr *MockRepositoryMockRecorder) GetAssetPrice(arg0 interface{}) *gomock.Ca
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAssetPrice", reflect.TypeOf((*MockRepository)(nil).GetAssetPrice), arg0)
 }
 
-// GetPortfolioByID mocks base method
-func (m *MockRepository) GetPortfolioByID(arg0 string) (portfolio.Portfolio, error) {
+// ListPortfolios mocks base method
+func (m *MockRepository) ListPortfolios() ([]portfolio.Portfolio, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetPortfolioByID", arg0)
-	ret0, _ := ret[0].(portfolio.Portfolio)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// GetPortfolioByID indicates an expected call of GetPortfolioByID
-func (mr *MockRepositoryMockRecorder) GetPortfolioByID(arg0 interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetPortfolioByID", reflect.TypeOf((*MockRepository)(nil).GetPortfolioByID), arg0)
-}
-
-// GetPortfolios mocks base method
-func (m *MockRepository) GetPortfolios() ([]portfolio.Portfolio, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetPortfolios")
+	ret := m.ctrl.Call(m, "ListPortfolios")
 	ret0, _ := ret[0].([]portfolio.Portfolio)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// GetPortfolios indicates an expected call of GetPortfolios
-func (mr *MockRepositoryMockRecorder) GetPortfolios() *gomock.Call {
+// ListPortfolios indicates an expected call of ListPortfolios
+func (mr *MockRepositoryMockRecorder) ListPortfolios() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetPortfolios", reflect.TypeOf((*MockRepository)(nil).GetPortfolios))
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListPortfolios", reflect.TypeOf((*MockRepository)(nil).ListPortfolios))
+}
+
+// Portfolio mocks base method
+func (m *MockRepository) Portfolio(arg0 string) (portfolio.Portfolio, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Portfolio", arg0)
+	ret0, _ := ret[0].(portfolio.Portfolio)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Portfolio indicates an expected call of Portfolio
+func (mr *MockRepositoryMockRecorder) Portfolio(arg0 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Portfolio", reflect.TypeOf((*MockRepository)(nil).Portfolio), arg0)
 }
 
 // UpdatePortfolio mocks base method

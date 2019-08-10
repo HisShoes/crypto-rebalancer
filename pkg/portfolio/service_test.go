@@ -35,8 +35,8 @@ func TestGetPortfolioByID(t *testing.T) {
 
 	// Portfolio doesn't exist: Test to check when error is returned from repo
 	// error is returned from service
-	mockRepo.EXPECT().GetPortfolioByID("1").Return(portfolio.Portfolio{}, portfolio.ErrMissing).Times(1)
-	p, err := s.GetPortfolioByID("1")
+	mockRepo.EXPECT().Portfolio("1").Return(portfolio.Portfolio{}, portfolio.ErrMissing).Times(1)
+	p, err := s.Portfolio("1")
 	if err != portfolio.ErrMissing {
 		t.Errorf("Portfolio doesn't exist: Error missing not returned")
 	}
@@ -46,8 +46,8 @@ func TestGetPortfolioByID(t *testing.T) {
 
 	// Portfolio Exists: Test to check when portfolio returned from repo
 	// it's returned from the service
-	mockRepo.EXPECT().GetPortfolioByID("1").Return(testPortfolio, nil).Times(1)
-	p, err = s.GetPortfolioByID("1")
+	mockRepo.EXPECT().Portfolio("1").Return(testPortfolio, nil).Times(1)
+	p, err = s.Portfolio("1")
 	if err != nil {
 		t.Errorf("Portfolio Exists: Error returned instead of portfolio")
 	}
@@ -94,8 +94,8 @@ func TestGetPortfolios(t *testing.T) {
 
 	// Portfolio List: Test to check when error is returned from repo
 	// error is returned from service
-	mockRepo.EXPECT().GetPortfolios().Return([]portfolio.Portfolio{}, errors.New("Some error")).Times(1)
-	ps, err := s.GetAllPortfolios()
+	mockRepo.EXPECT().ListPortfolios().Return([]portfolio.Portfolio{}, errors.New("Some error")).Times(1)
+	ps, err := s.ListPortfolios()
 	if err == nil {
 		t.Errorf("Portfolio List Error: Error not returned")
 	}
@@ -105,8 +105,8 @@ func TestGetPortfolios(t *testing.T) {
 
 	// Portfolio List: Test to check when portfolios returned from repo
 	// it's returned from the service
-	mockRepo.EXPECT().GetPortfolios().Return(testPortfolios, nil).Times(1)
-	ps, err = s.GetAllPortfolios()
+	mockRepo.EXPECT().ListPortfolios().Return(testPortfolios, nil).Times(1)
+	ps, err = s.ListPortfolios()
 	if err != nil {
 		t.Errorf("Portfolio List: Error returned instead of portfolios")
 	}
@@ -162,5 +162,7 @@ func TestCreatePortfolio(t *testing.T) {
 }
 
 func TestUpdatePrice(t *testing.T) {
-
+	mockCtrl := gomock.NewController(t)
+	defer mockCtrl.Finish()
+	// mockRepo := mocks.NewMockRepository(mockCtrl)
 }
