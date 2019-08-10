@@ -9,5 +9,4 @@ type Repository interface {
 	ListPortfolios() ([]Portfolio, error)
 	CreatePortfolio(p Portfolio) (string, error)
 	UpdatePortfolio(p Portfolio) error
-	GenerateID() string
 }

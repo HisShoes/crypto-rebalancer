@@ -8,8 +8,8 @@ import (
 type Service interface {
 	Portfolio(id string) (Portfolio, error)
 	CreatePortfolio(Portfolio) (string, error)
-	RebalancePortfolio(id string) (Portfolio, error)
 	ListPortfolios() ([]Portfolio, error)
+	RebalancePortfolio(id string) (Portfolio, error)
 }
 
 type service struct {
