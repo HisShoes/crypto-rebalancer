@@ -2,16 +2,32 @@
 
 
 [[projects]]
-  digest = "1:be408f349cae090a7c17a279633d6e62b00068e64af66a582cae0983de8890ea"
+  digest = "1:552a143cfb2692a4a8cbae568a9b4633ec4e7ce9269cfe74c07ea08ce50d866f"
   name = "github.com/golang/mock"
-  packages = ["gomock"]
-  pruneopts = "UT"
-  revision = "9fa652df1129bef0e734c9cf9bf6dbae9ef3b9fa"
-  version = "1.3.1"
+  packages = [
+    "gomock",
+    "mockgen",
+    "mockgen/model",
+  ]
+  pruneopts = "NUT"
+  revision = "51421b967af1f557f93a59e0057aaf15ca02e29c"
+  version = "v1.2.0"
+
+[[projects]]
+  digest = "1:3c8c26bb118e3f02230d4f5f30b972dbfe0c6b371acea8f190aa99ceaaae7028"
+  name = "github.com/gorilla/mux"
+  packages = ["."]
+  pruneopts = "NUT"
+  revision = "00bdffe0f3c77e27d2cf6f5c70232a2d3e4d9c15"
+  version = "v1.7.3"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  input-imports = ["github.com/golang/mock/gomock"]
+  input-imports = [
+    "github.com/golang/mock/gomock",
+    "github.com/golang/mock/mockgen",
+    "github.com/gorilla/mux",
+  ]
   solver-name = "gps-cdcl"
   solver-version = 1
