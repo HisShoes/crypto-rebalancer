@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/hisshoes/crypto-rebalancer/pkg/portfolio"
-
 	uuid "github.com/nu7hatch/gouuid"
+
+	"github.com/hisshoes/crypto-rebalancer/pkg/portfolio"
 )
 
 //Storage - track portfolios and assets in memory
@@ -17,7 +17,13 @@ type Storage struct {
 
 //GetAssetPrice get the price related to an asset
 func (s *Storage) GetAssetPrice(n string) (float64, error) {
-	return 0, nil
+	for _, a := range s.assets {
+		if a.Name == n {
+			return a.Price, nil
+		}
+	}
+
+	return 0, portfolio.ErrMissing
 }
 
 //Portfolio return a portfolio relating to an id
@@ -55,5 +61,13 @@ func (s *Storage) CreatePortfolio(p portfolio.Portfolio) (string, error) {
 
 //UpdatePortfolio update a specific portfolio
 func (s *Storage) UpdatePortfolio(p portfolio.Portfolio) error {
-	return nil
+	for _, cp := range s.portfolios {
+		if cp.ID == p.ID {
+			cp.Assets = p.Assets
+			cp.Updated = time.Now()
+			return nil
+		}
+	}
+
+	return portfolio.ErrMissing
 }
