@@ -1,0 +1,13 @@
+version: '3.3'
+services:
+  db:
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: 'portfolios'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'd47413453!'
+      MYSQL_ROOT_PASSWORD: 'b474d453!'
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'

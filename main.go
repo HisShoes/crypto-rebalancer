@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/hisshoes/crypto-rebalancer/pkg/http/rest"
 	"github.com/hisshoes/crypto-rebalancer/pkg/portfolio"
@@ -26,6 +27,7 @@ func main() {
 
 	router := rest.Handler(p)
 
-	fmt.Println("Portfolio server starting")
+	fmt.Println("db: ", os.Getenv("db"))
+	fmt.Println("Portfolio server starting on 8080")
 	log.Fatal(http.ListenAndServe(":8080", router))
 }
