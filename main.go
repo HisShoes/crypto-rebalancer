@@ -1,9 +1,9 @@
 package main
 
 import (
-	"fmt"
-	"log"
 	"net/http"
+
+	log "github.com/sirupsen/logrus"
 
 	"github.com/hisshoes/crypto-rebalancer/pkg/http/rest"
 	"github.com/hisshoes/crypto-rebalancer/pkg/portfolio"
@@ -15,6 +15,7 @@ func main() {
 
 	var p portfolio.Service
 
+	//setup storage and initialize service with it
 	switch dbType {
 	case "memory":
 		s := new(memory.Storage)
@@ -24,8 +25,13 @@ func main() {
 		panic("Unknown database")
 	}
 
+	//create router using service
 	router := rest.Handler(p)
 
-	fmt.Println("Portfolio server starting")
+	//initialize logger
+	log.SetLevel(log.InfoLevel)
+
+	//start server
+	log.Info("Portfolio server starting on ", ":8080")
 	log.Fatal(http.ListenAndServe(":8080", router))
 }

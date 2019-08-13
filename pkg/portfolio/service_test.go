@@ -4,10 +4,11 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/hisshoes/crypto-rebalancer/pkg/portfolio"
-
 	"github.com/golang/mock/gomock"
 	"github.com/hisshoes/crypto-rebalancer/pkg/mocks"
+	"github.com/stretchr/testify/assert"
+
+	"github.com/hisshoes/crypto-rebalancer/pkg/portfolio"
 )
 
 // TestGetPortfolioByID - unit test portfolio.service.GetPortfolio
@@ -37,23 +38,16 @@ func TestGetPortfolioByID(t *testing.T) {
 	// error is returned from service
 	mockRepo.EXPECT().Portfolio("1").Return(portfolio.Portfolio{}, portfolio.ErrMissing).Times(1)
 	p, err := s.Portfolio("1")
-	if err != portfolio.ErrMissing {
-		t.Errorf("Portfolio doesn't exist: Error missing not returned")
-	}
-	if p.ID != "" {
-		t.Errorf("Portfolio doesn't exist: zero ID not returned ")
-	}
+	assert.NotEqual(t, p.ID, "", "Portfolio doesn't exist: zero ID not returned")
+	assert.NotEqual(t, err, "", "Portfolio doesn't exist: Error missing not returned")
 
 	// Portfolio Exists: Test to check when portfolio returned from repo
 	// it's returned from the service
 	mockRepo.EXPECT().Portfolio("1").Return(testPortfolio, nil).Times(1)
 	p, err = s.Portfolio("1")
-	if err != nil {
-		t.Errorf("Portfolio Exists: Error returned instead of portfolio")
-	}
-	if p.ID != "1" {
-		t.Errorf("Portfolio Exists: portfolio with ID 1 not returned")
-	}
+	assert.NotNil(t, err, "Portfolio Exists: Error returned instead of portfolio")
+	assert.Equal(t, p.ID, 1, "Portfolio Exists:  portfolio with ID 1 not returned")
+
 }
 
 // TestGetPortfolio - unit test portfolio.service.GetPortfolio

@@ -1,10 +1,9 @@
 package memory
 
 import (
-	"fmt"
 	"time"
 
-	uuid "github.com/nu7hatch/gouuid"
+	"github.com/segmentio/ksuid"
 
 	"github.com/hisshoes/crypto-rebalancer/pkg/portfolio"
 )
@@ -43,15 +42,9 @@ func (s *Storage) ListPortfolios() ([]portfolio.Portfolio, error) {
 
 //CreatePortfolio create a portfolio and append to the slice
 func (s *Storage) CreatePortfolio(p portfolio.Portfolio) (string, error) {
-	//generate new uuid
-	u, err := uuid.NewV4()
-	if err != nil {
-		fmt.Println("error:", err)
-		return "", err
-	}
 
 	//setup non-user set values
-	p.ID = u.String()
+	p.ID = generateID()
 	p.Updated = time.Now()
 
 	//append to slice and return the ID
@@ -70,4 +63,8 @@ func (s *Storage) UpdatePortfolio(p portfolio.Portfolio) error {
 	}
 
 	return portfolio.ErrMissing
+}
+
+func generateID() string {
+	return ksuid.New().String()
 }
