@@ -1,13 +1,20 @@
 version: '3.3'
 services:
   db:
-    image: mysql:latest
-    environment:
-      MYSQL_DATABASE: 'portfolios'
-      MYSQL_USER: 'user'
-      MYSQL_PASSWORD: 'd47413453!'
-      MYSQL_ROOT_PASSWORD: 'b474d453!'
+    image: mongo:latest
     ports:
-      - '3306:3306'
-    expose:
-      - '3306'
+      - '27017:27017'
+    command: '--noauth --bind_ip=0.0.0.0'
+
+  server:
+    build: .
+    ports:
+      - '8080:8080'
+    depends_on:
+      - db
+    links:
+      - db
+    environment:
+      DB_URL: mongodb://db/portfolios
+      HOST: '0.0.0.0'
+      PORT: '8080'
