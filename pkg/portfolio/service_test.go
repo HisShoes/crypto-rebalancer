@@ -4,10 +4,11 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/hisshoes/crypto-rebalancer/pkg/portfolio"
-
 	"github.com/golang/mock/gomock"
+	"github.com/stretchr/testify/require"
+
 	"github.com/hisshoes/crypto-rebalancer/pkg/mocks"
+	"github.com/hisshoes/crypto-rebalancer/pkg/portfolio"
 )
 
 // TestGetPortfolioByID - unit test portfolio.service.GetPortfolio
@@ -37,23 +38,16 @@ func TestGetPortfolioByID(t *testing.T) {
 	// error is returned from service
 	mockRepo.EXPECT().Portfolio("1").Return(portfolio.Portfolio{}, portfolio.ErrMissing).Times(1)
 	p, err := s.Portfolio("1")
-	if err != portfolio.ErrMissing {
-		t.Errorf("Portfolio doesn't exist: Error missing not returned")
-	}
-	if p.ID != "" {
-		t.Errorf("Portfolio doesn't exist: zero ID not returned ")
-	}
+	require.Equal(t, p.ID, "")
+	require.Equal(t, err, portfolio.ErrMissing)
 
 	// Portfolio Exists: Test to check when portfolio returned from repo
 	// it's returned from the service
 	mockRepo.EXPECT().Portfolio("1").Return(testPortfolio, nil).Times(1)
 	p, err = s.Portfolio("1")
-	if err != nil {
-		t.Errorf("Portfolio Exists: Error returned instead of portfolio")
-	}
-	if p.ID != "1" {
-		t.Errorf("Portfolio Exists: portfolio with ID 1 not returned")
-	}
+	require.Nil(t, err)
+	require.Equal(t, p.ID, "1")
+
 }
 
 // TestGetPortfolio - unit test portfolio.service.GetPortfolio

@@ -23,7 +23,11 @@ func Handler(p portfolio.Service) http.Handler {
 func createPortfolio(s portfolio.Service) func(w http.ResponseWriter, r *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var p portfolio.Portfolio
-		_ = json.NewDecoder(r.Body).Decode(&p)
+		err := json.NewDecoder(r.Body).Decode(&p)
+		if err != nil {
+			http.Error(w, "Bad request", http.StatusBadRequest)
+			return
+		}
 
 		id, err := s.CreatePortfolio(p)
 		if err != nil {
@@ -45,7 +49,11 @@ func listPortfolios(s portfolio.Service) func(w http.ResponseWriter, r *http.Req
 		}
 
 		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(p)
+		err = json.NewEncoder(w).Encode(p)
+		if err != nil {
+			http.Error(w, "Portfolio could not be retrieved", http.StatusInternalServerError)
+			return
+		}
 	}
 }
 
@@ -61,6 +69,10 @@ func getPortfolio(s portfolio.Service) func(w http.ResponseWriter, r *http.Reque
 		}
 
 		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(p)
+		err = json.NewEncoder(w).Encode(p)
+		if err != nil {
+			http.Error(w, "Portfolio could not be retrieved", http.StatusInternalServerError)
+			return
+		}
 	}
 }

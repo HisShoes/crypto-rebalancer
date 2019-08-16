@@ -1,12 +1,11 @@
 package memory
 
 import (
-	"fmt"
 	"time"
 
-	"github.com/hisshoes/crypto-rebalancer/pkg/portfolio"
+	"github.com/segmentio/ksuid"
 
-	uuid "github.com/nu7hatch/gouuid"
+	"github.com/hisshoes/crypto-rebalancer/pkg/portfolio"
 )
 
 //Storage - track portfolios and assets in memory
@@ -17,7 +16,13 @@ type Storage struct {
 
 //GetAssetPrice get the price related to an asset
 func (s *Storage) GetAssetPrice(n string) (float64, error) {
-	return 0, nil
+	for _, a := range s.assets {
+		if a.Name == n {
+			return a.Price, nil
+		}
+	}
+
+	return 0, portfolio.ErrMissing
 }
 
 //Portfolio return a portfolio relating to an id
@@ -37,16 +42,10 @@ func (s *Storage) ListPortfolios() ([]portfolio.Portfolio, error) {
 
 //CreatePortfolio create a portfolio and append to the slice
 func (s *Storage) CreatePortfolio(p portfolio.Portfolio) (string, error) {
-	//generate new uuid
-	u, err := uuid.NewV4()
-	if err != nil {
-		fmt.Println("error:", err)
-		return "", err
-	}
 
 	//setup non-user set values
-	p.ID = u.String()
-	p.Updated = time.Now()
+	p.ID = generateID()
+	p.UpdateTime = time.Now()
 
 	//append to slice and return the ID
 	s.portfolios = append(s.portfolios, p)
@@ -55,5 +54,17 @@ func (s *Storage) CreatePortfolio(p portfolio.Portfolio) (string, error) {
 
 //UpdatePortfolio update a specific portfolio
 func (s *Storage) UpdatePortfolio(p portfolio.Portfolio) error {
-	return nil
+	for _, cp := range s.portfolios {
+		if cp.ID == p.ID {
+			cp.Assets = p.Assets
+			cp.UpdateTime = time.Now()
+			return nil
+		}
+	}
+
+	return portfolio.ErrMissing
+}
+
+func generateID() string {
+	return ksuid.New().String()
 }

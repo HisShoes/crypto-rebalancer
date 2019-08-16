@@ -20,7 +20,7 @@ type Asset struct {
 // Portfolio defines the properties stored in a portfolio
 // to track crypto assets for rebalancing
 type Portfolio struct {
-	ID      string    `json:"id,omitempty"`
-	Assets  []Asset   `json:"assets,omitempty"`
-	Updated time.Time `json:"updated,omitempty"`
+	ID         string    `json:"id,omitempty"`
+	Assets     []Asset   `json:"assets,omitempty"`
+	UpdateTime time.Time `json:"updateTime,omitempty"`
 }

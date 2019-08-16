@@ -17,10 +17,10 @@ type service struct {
 }
 
 // ErrDuplicate is used when a portfolio already exists.
-var ErrDuplicate = errors.New("portfolio already exists")
+var ErrDuplicate = errors.New("record already exists")
 
-// ErrMissing is used when a portfolio already exists.
-var ErrMissing = errors.New("portfolio not found")
+// ErrMissing is used when a record doesn't exist.
+var ErrMissing = errors.New("record not found")
 
 // NewService creates a new portfolio service with dependencies
 func NewService(r Repository) Service {
