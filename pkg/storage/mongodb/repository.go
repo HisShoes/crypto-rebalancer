@@ -57,13 +57,39 @@ func (s Storage) GetAssetPrice(n string) (float64, error) {
 
 // Portfolio return a portfolio relating to an id
 func (s Storage) Portfolio(id string) (portfolio.Portfolio, error) {
+	ctx, c := context.WithTimeout(context.Background(), 30*time.Second)
+	defer c()
 
-	return portfolio.Portfolio{}, portfolio.ErrMissing
+	var result portfolio.Portfolio
+	filter := bson.M{"id": id}
+
+	err := s.portfolios.FindOne(ctx, filter).Decode(&result)
+	if err != nil {
+		return portfolio.Portfolio{}, portfolio.ErrMissing
+	}
+
+	return result, nil
 }
 
 // ListPortfolios return all the portfolios
 func (s Storage) ListPortfolios() ([]portfolio.Portfolio, error) {
-	return []portfolio.Portfolio{}, nil
+	ctx, c := context.WithTimeout(context.Background(), 30*time.Second)
+	defer c()
+
+	var result []portfolio.Portfolio
+	cur, err := s.portfolios.Find(ctx, bson.D{})
+	if err != nil {
+		return []portfolio.Portfolio{}, portfolio.ErrMissing
+	}
+	defer cur.Close(ctx)
+
+	for cur.Next(ctx) {
+		var rec portfolio.Portfolio
+		cur.Decode(&rec)
+		result = append(result, rec)
+	}
+
+	return result, nil
 }
 
 // CreatePortfolio create a portfolio and append to the slice
