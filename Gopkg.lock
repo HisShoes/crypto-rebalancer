@@ -62,21 +62,11 @@
   version = "v1.4.2"
 
 [[projects]]
-  digest = "1:60a46e2410edbf02b419f833372dd1d24d7aa1b916a990a7370e792fada1eadd"
-  name = "github.com/stretchr/objx"
-  packages = ["."]
-  pruneopts = "NUT"
-  revision = "477a77ecc69700c7cdeb1fa9e129548e1c1c393c"
-  version = "v0.1.1"
-
-[[projects]]
-  digest = "1:ee1d3a6f3750629a4b4d2f58355294670b3db0e564fd709944076a6e802ab7bc"
+  digest = "1:85adecf1dbfae5769cc62a8bcea6498f8e9f0e2452e4e6686eb36fa4428a5a6e"
   name = "github.com/stretchr/testify"
   packages = [
-    ".",
     "assert",
-    "http",
-    "mock",
+    "require",
   ]
   pruneopts = "NUT"
   revision = "ffdc059bfe9ce6a4e144ba849dbedead332c6053"
@@ -99,7 +89,8 @@
     "github.com/gorilla/mux",
     "github.com/segmentio/ksuid",
     "github.com/sirupsen/logrus",
-    "github.com/stretchr/testify",
+    "github.com/stretchr/testify/assert",
+    "github.com/stretchr/testify/require",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1

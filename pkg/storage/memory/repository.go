@@ -45,7 +45,7 @@ func (s *Storage) CreatePortfolio(p portfolio.Portfolio) (string, error) {
 
 	//setup non-user set values
 	p.ID = generateID()
-	p.Updated = time.Now()
+	p.UpdateTime = time.Now()
 
 	//append to slice and return the ID
 	s.portfolios = append(s.portfolios, p)
@@ -57,7 +57,7 @@ func (s *Storage) UpdatePortfolio(p portfolio.Portfolio) error {
 	for _, cp := range s.portfolios {
 		if cp.ID == p.ID {
 			cp.Assets = p.Assets
-			cp.Updated = time.Now()
+			cp.UpdateTime = time.Now()
 			return nil
 		}
 	}
