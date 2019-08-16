@@ -5,9 +5,8 @@ package portfolio
 // Repository interface to allow the portfolio to update
 type Repository interface {
 	GetAssetPrice(n string) (float64, error)
-	GetPortfolioByID(i string) (Portfolio, error)
-	GetPortfolios() ([]Portfolio, error)
+	Portfolio(id string) (Portfolio, error)
+	ListPortfolios() ([]Portfolio, error)
 	CreatePortfolio(p Portfolio) (string, error)
 	UpdatePortfolio(p Portfolio) error
-	GenerateID() string
 }
