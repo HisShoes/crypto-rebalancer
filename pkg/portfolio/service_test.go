@@ -23,10 +23,10 @@ func TestGetPortfolioByID(t *testing.T) {
 		ID: "1",
 		Assets: []portfolio.Asset{
 			portfolio.Asset{
-				Name:  "BTC",
-				Value: 100,
-				Share: 50,
-				Price: 8000,
+				Name:     "BTC",
+				Quantity: 100,
+				Share:    50,
+				Price:    8000,
 			},
 		},
 	}
@@ -63,10 +63,10 @@ func TestGetPortfolios(t *testing.T) {
 			ID: "1",
 			Assets: []portfolio.Asset{
 				portfolio.Asset{
-					Name:  "BTC",
-					Value: 100,
-					Share: 50,
-					Price: 8000,
+					Name:     "BTC",
+					Quantity: 100,
+					Share:    50,
+					Price:    8000,
 				},
 			},
 		},
@@ -74,10 +74,10 @@ func TestGetPortfolios(t *testing.T) {
 			ID: "2",
 			Assets: []portfolio.Asset{
 				portfolio.Asset{
-					Name:  "ETH",
-					Value: 100,
-					Share: 50,
-					Price: 8000,
+					Name:     "ETH",
+					Quantity: 100,
+					Share:    50,
+					Price:    8000,
 				},
 			},
 		},
@@ -120,10 +120,10 @@ func TestCreatePortfolio(t *testing.T) {
 	testPortfolio := portfolio.Portfolio{
 		Assets: []portfolio.Asset{
 			portfolio.Asset{
-				Name:  "BTC",
-				Value: 100,
-				Share: 50,
-				Price: 8000,
+				Name:     "BTC",
+				Quantity: 100,
+				Share:    50,
+				Price:    8000,
 			},
 		},
 	}

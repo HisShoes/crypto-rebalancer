@@ -30,8 +30,22 @@ func NewService(r Repository) Service {
 }
 
 // CreatePortfolio Creates a new portfolio using the repo
-// takes in an initial portfolio object
+// takes in an initial portfolio object, gets the values for the assets and creates
 func (s *service) CreatePortfolio(p Portfolio) (string, error) {
+	totalValue := 0.00
+
+	for _, a := range p.Assets {
+		p, err := s.repo.GetAssetPrice(a.Name)
+		if err != nil {
+			return "", err
+		}
+		a.Price = p
+		totalValue += p
+	}
+
+	p.ValueHistory = []float64{}
+	p.ValueHistory = append(p.ValueHistory, totalValue)
+
 	return s.repo.CreatePortfolio(p)
 }
 

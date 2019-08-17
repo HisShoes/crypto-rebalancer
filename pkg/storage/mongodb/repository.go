@@ -94,12 +94,12 @@ func (s Storage) ListPortfolios() ([]portfolio.Portfolio, error) {
 
 // CreatePortfolio create a portfolio and append to the slice
 func (s Storage) CreatePortfolio(p portfolio.Portfolio) (string, error) {
+	ctx, c := context.WithTimeout(context.Background(), 30*time.Second)
+	defer c()
+
 	// setup non-user set values
 	p.ID = generateID()
 	p.UpdateTime = time.Now()
-
-	ctx, c := context.WithTimeout(context.Background(), 30*time.Second)
-	defer c()
 
 	_, err := s.portfolios.InsertOne(ctx, p)
 	if err != nil {
@@ -111,6 +111,16 @@ func (s Storage) CreatePortfolio(p portfolio.Portfolio) (string, error) {
 
 // UpdatePortfolio update a specific portfolio
 func (s Storage) UpdatePortfolio(p portfolio.Portfolio) error {
+	ctx, c := context.WithTimeout(context.Background(), 30*time.Second)
+	defer c()
+
+	filter := bson.M{"id": p.ID}
+
+	_, err := s.portfolios.UpdateOne(ctx, filter, p)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
