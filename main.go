@@ -8,10 +8,11 @@ import (
 	"github.com/hisshoes/crypto-rebalancer/pkg/http/rest"
 	"github.com/hisshoes/crypto-rebalancer/pkg/portfolio"
 	"github.com/hisshoes/crypto-rebalancer/pkg/storage/memory"
+	"github.com/hisshoes/crypto-rebalancer/pkg/storage/mongodb"
 )
 
 func main() {
-	dbType := "memory"
+	dbType := "mongodb"
 
 	var p portfolio.Service
 
@@ -19,6 +20,10 @@ func main() {
 	switch dbType {
 	case "memory":
 		s := new(memory.Storage)
+		p = portfolio.NewService(s)
+
+	case "mongodb":
+		s := mongodb.NewRepository("mongodb://192.168.99.100:27017")
 		p = portfolio.NewService(s)
 
 	default:

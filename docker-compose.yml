@@ -1,0 +1,20 @@
+version: '3.3'
+services:
+  db:
+    image: mongo:latest
+    ports:
+      - '27017:27017'
+    command: '--noauth --bind_ip=0.0.0.0'
+  # server:
+  #   build: .
+  #   ports:
+  #     - '8080:8080'
+  #   depends_on:
+  #     - db
+  #   links:
+  #     - db
+  #   environment:
+  #     DB_TYPE: 'memory'
+  #     DB_URL: mongodb://db
+  #     HOST: '0.0.0.0'
+  #     PORT: '8080'
