@@ -12,3 +12,8 @@ Inspired by an article by shrimpy explaining what portfolio rebalancing is. The 
 - Assets domain to create and update asset prices
 - Rebalancing implementation
 - Automatically running, testing with historic data
+
+## Non functional
+
+- Docker setup for go app
+- Tests - rewritten and more coverage
