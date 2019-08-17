@@ -23,7 +23,6 @@ func main() {
 		p = portfolio.NewService(s)
 
 	case "mongodb":
-		// os.Getenv("DB_URL")
 		s := mongodb.NewRepository("mongodb://192.168.99.100:27017")
 		p = portfolio.NewService(s)
 
